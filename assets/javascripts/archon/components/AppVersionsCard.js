@@ -14,10 +14,11 @@ let AppVersionsCard = React.createClass({
     const {theme}=this.context;
     const versions = this.props.versions;
     const appname = this.props.appname;
+    const titleStyle = _.assign({}, theme.cardTitle, theme.colorStyle('info', true));
     //const versions=["hello","world"];
     return (
       <MDL.Card style={theme.card}>
-        <MDL.CardTitle title={`应用 - ${appname} 的历史版本`} />
+        <MDL.CardTitle style={titleStyle} title={`应用 - ${appname} 的历史版本`} />
         <div style={{ marginBottom: 16  }}>
           <MDL.Table style={theme.dataTable}
             cols={[
