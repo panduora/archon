@@ -41,10 +41,15 @@ let AppVersionsPage = React.createClass({
     const versions = request.data;
     return (
       <MDL.Grid>
-        <MDL.GridCell col={8}>
+        <MDL.GridCell col={6}>
           <AppVersionsCard appname={name} versions={versions} callback={this.deployAppWithVersion}/>
+          <MDL.CardActions border buttons={[
+            { title: '刷新', to: `/archon/apps/${name}/versions`, color: 'colored'  },
+            { title: '返回应用', to: `/archon/apps/${name}`, color: 'colored' },
+          ]}
+            border={true} align='right'
+          />
         </MDL.GridCell>
-        <MDL.CardActions border buttons={[{ title: '刷新', to: `/archon/apps/${name}/versions`, color: 'colored'  }]} />
       </MDL.Grid>
     );
   },
