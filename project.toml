@@ -1,0 +1,38 @@
+[package]
+name = "archon"
+version = "0.1"
+authors = [
+    "jiami <jiami@creditease.cn>",
+]
+build_opts = []
+deps = []
+
+[distribution]
+build_opts = []
+pack_extras = ["templates"]
+cross_targets = [["linux", "amd64"]]
+
+[assets]
+url_prefix = "/assets"
+assets_mapping_pkg = "main"
+image_exts = [".png", ".jpg", ".jpeg", ".gif"]
+deps = [
+    "es5-shim",
+    "react@0.14.1",
+    "react-dom@0.14.1",
+    "react-router@v1.0.0-rc1",
+    "history@1.13.1",
+    "lodash",
+    "radium@0.15.3",
+    "color@0.10.1",
+    "classnames",
+    "redux",
+    "react-redux@4.0.0",
+    "redux-logger",
+    "whatwg-fetch",
+    "cookie",
+    "moment",
+]
+
+[[assets.entry]]
+name = "archon"
