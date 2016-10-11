@@ -58,10 +58,12 @@ let AppListPage = React.createClass({
   renderAppColumns(apps, request, totalColumn, column) {
     if (request.isFetching || request.error ) { return null; }
     if (!apps || apps.length === 0) { return null; }
+    const type = this.props.location.query.type;
+    const shownApps = this.filterApp(apps,type);
     return (
       <GridCell col={4}>
         { 
-          apps.map((app, index) => {
+          shownApps.map((app, index) => {
             return index % totalColumn === (column - 1) ? <AppSummaryCard app={app} key={index} /> : null;
           })
         }
@@ -115,6 +117,26 @@ let AppListPage = React.createClass({
         }
         return ya.commitTime().unix() - xa.commitTime().unix();
       }).map(app => AppView(app)).value();
+  },
+
+  filterApp(apps, type){
+    var newApps = [];
+    for(var i = 0; i < apps.length; i++){
+      if (type === 'service'){
+        if (apps[i].apptype === 'service'){
+          newApps.push(apps[i]);
+        }
+      }
+      else if (type === 'resource'){
+        if (apps[i].apptype === 'resource' || apps[i].apptype === 'resource-instance'){
+          newApps.push(apps[i]);
+        } 
+      }
+      else{
+        newApps.push(apps[i]);
+      }
+    }
+    return newApps;
   },
 
 });
