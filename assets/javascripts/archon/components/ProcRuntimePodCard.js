@@ -36,6 +36,7 @@ let ProcRuntimePodCard = React.createClass({
               {k: '节点IP', v: pod.nodeip }, 
               {k: '容器IP', v: pod.containerip }, 
               {k: '容器端口', v: pod.containerport }, 
+              {k: '启动时间', v: pod.uptime }, 
             ]} />
           <div style={{ height: 16 }}></div>
           <h6 style={{ padding: '0 16px', margin: 0 }}>环境变量</h6>
