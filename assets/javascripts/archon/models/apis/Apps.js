@@ -105,7 +105,7 @@ export function register(appname) {
 export function deploy(appname) {
   return Fetch.json(apiApps, 'POST', { appname })
     .then(({statusCode, data}) => {
-      if (statusCode === 201) {
+      if (statusCode === 202) {
         return Fetch.wrap(statusCode, 'deployed');
       }
       const rej = Fetch.wrap(statusCode, data.msg || `部署App失败，返回代码：${statusCode}`);
