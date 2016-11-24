@@ -25,6 +25,7 @@ let AppSummaryCard = React.createClass({
     const app = AppView(this.props.app);
     let lifescore = app.lifescore();
     const portals = _(app.useservices).map(s => s.service.portals || []).flatten().value();
+    const deployerror = app.deployerror
     return (
       <MDL.Card style={theme.card}>
         <LifescoreBar score={lifescore} />
@@ -33,6 +34,7 @@ let AppSummaryCard = React.createClass({
           { this.props.inDetail ? <p style={{ margin: 0 }}><b>MetaVersion</b>: {app.metaversion}</p> : null }
           当前版本代码最后提交时间为 <b>{app.commitTime().format('YYYY-MM-DD HH:mm')}</b>, 定义包括Procs <b>{app.procs.length}</b> 个，
           使用服务 <b>{app.useservices.length}</b> 个，资源 <b>{app.useresources.length}</b> 个。
+          { this.props.inDetail && deployerror ? <p style={{ margin: 0, color: "red" }}><b>Error</b>: {deployerror}</p> : null }
         </MDL.CardSupportText>
 
         {
