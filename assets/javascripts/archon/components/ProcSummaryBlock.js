@@ -12,7 +12,7 @@ let ProcSummaryBlock = React.createClass({
     const {title, proc, type, runtime} = this.props;
     const upCount = proc.upCount();
     let blockStyle = _.assign({}, this.styles.block, theme.colorStyle(type, true));
-    if (upCount !== proc.numinstances && runtime) {
+    if (upCount < proc.numinstances && runtime) {
       blockStyle['boxShadow'] = `-3px -3px 5px ${theme.colors['error']}`;
     }
     return (
