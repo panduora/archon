@@ -10,7 +10,8 @@ export default function ProcView(proc) {
   };
 
   wrapped.lifescore = () => {
-    return wrapped.upCount() * 100.0 / proc.numinstances;
+    let score = wrapped.upCount() * 100.0 / proc.numinstances;
+    return score > 100 ? 100 : score;
   };
 
   return wrapped;
