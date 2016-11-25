@@ -62,7 +62,14 @@ let ProcScheduleSpecCard = React.createClass({
       }
     }
     if (!memoryValue) {
-      isMemoryValid = false;
+        isMemoryValid = false;
+    } else {
+      let lastCharIndex = memoryValue.length - 1;
+      let unit = memoryValue[lastCharIndex].toUpperCase();
+      let numMem = Number(memoryValue.substring(0, lastCharIndex));
+      if (isNaN(numMem) || (unit !== 'M' && unit !== 'G')) {
+        isMemoryValid = false;
+      }
     }
     this.setState({isCpuValid, isMemoryValid});
     if (isCpuValid && isMemoryValid) {
