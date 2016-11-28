@@ -7,3 +7,5 @@ assets_gen.go
 archon-*
 archon.html
 *.log
+.idea/
+archon.iml
