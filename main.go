@@ -23,11 +23,13 @@ func main() {
 	var web, mode string
 	var apiServer string
 	var ssoServer string
+	var entryServer string
 	var ssoClientId int
 	flag.StringVar(&web, "web", ":9000", "Static file server address")
 	flag.StringVar(&mode, "mode", "compile", "Compile mode or local debug mode")
 	flag.StringVar(&apiServer, "api-server", "", "Specify the api server")
 	flag.StringVar(&ssoServer, "sso-server", "", "Specify the sso server")
+	flag.StringVar(&entryServer, "entry-server", "", "Specify the sso server")
 	flag.IntVar(&ssoClientId, "sso-client-id", -1, "Specify the sso client id")
 	flag.Parse()
 
@@ -51,6 +53,7 @@ func main() {
 		"ApiServer":   apiServer,
 		"SsoServer":   ssoServer,
 		"SsoClientId": ssoClientId,
+		"EntryServer": entryServer,
 	}
 	if err := tmpl.Execute(buffer, binding); err != nil {
 		log.Fatalf("Failed to execute the template, err=%s, binding=%+v", err, binding)
