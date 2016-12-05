@@ -9,3 +9,5 @@ archon.html
 *.log
 .idea/
 archon.iml
+package.json
+main.go.bak

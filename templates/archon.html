@@ -8,6 +8,7 @@
   <link rel="stylesheet" href="/public/material-1.0.4/material.min.css">
   <script src="/public/material-1.0.4/material.min.js"></script>
   <link rel="stylesheet" href="/public/material-1.0.4/icons.css">
+  <link rel="stylesheet" href="/public/xterm.js-2.1.0/xterm.css">
 </head>
 
 <body style="background-color: #FAFAFA;">
@@ -50,7 +51,9 @@
     "apiServer": "{{.ApiServer}}",
     "ssoServer": "{{.SsoServer}}",
     "ssoClientId": {{.SsoClientId}},
+    "entryServer": "{{.EntryServer}}",
   };
 </script>
 <script src="{{ assets "javascripts/archon.js" }}"></script>
+
 </html>

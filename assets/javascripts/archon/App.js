@@ -13,6 +13,7 @@ import AppDeployPage from './pages/AppDeployPage';
 import ProcDetailPage from './pages/ProcDetailPage';
 import PortalDetailPage from './pages/PortalDetailPage';
 import AppVersionsPage from './pages/AppVersionsPage';
+import ContainerTerminalPage from './pages/ContainerTerminalPage'
 
 let history = createHistory();
 
@@ -44,6 +45,7 @@ let ArchonApp = React.createClass({
             <Route path='/archon/apps/:appName/proc/:procName' component={this.connectApi(ProcDetailPage)} />
             <Route path='/archon/apps/:appName/portal/:procName' component={this.connectApi(PortalDetailPage)} />
             <Route path='/archon/apps/:appName/versions' component={this.connectApi(AppVersionsPage)} />
+            <Route path='/archon/apps/:appName/proc/:procName/instance/:instanceNo/enter' component={this.connectApi(ContainerTerminalPage)} />
           </Router>
         </div>
       </Provider>
