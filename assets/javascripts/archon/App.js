@@ -63,9 +63,9 @@ let ArchonApp = React.createClass({
   styles: {
     pageContent: {
       display: "block",
-      padding: 16,
       maxWidth: 1960,
       margin: "0 auto",
+      height: "100%",
     },
   },
 });

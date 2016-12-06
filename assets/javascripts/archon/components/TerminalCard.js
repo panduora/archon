@@ -32,10 +32,11 @@ let TerminalCard = React.createClass({
 
     render() {
         const {theme} = this.context;
+        const customStyle = {height: "100%"};
         return (
-            <MDL.Card depth={2} style={theme.card}>
+            <MDL.Card depth={2} style={_.assign({}, theme.card, customStyle)}>
                 <MDL.CardTitle title="容器终端" style={_.assign({}, this.styles.cardTitle, theme.colorStyle('proc', true))} />
-                <div style={{ padding: 16 }} id="container_terminal">
+                <div style={{ padding: 16, height: "100%" }} id="container_terminal">
                 </div>
             </MDL.Card>
         );
@@ -50,7 +51,6 @@ let TerminalCard = React.createClass({
     initTerminal() {
         var term = new Xterm({
             cursorBlink: true,
-            rows: 40,
         });
         term.open($('#container_terminal')[0]);
         term.fit();
@@ -119,6 +119,11 @@ let TerminalCard = React.createClass({
         $(window).on("resize", function(){
             term.fit();
         });
+
+        ws.onclose = function() {
+            term.off("data");
+            term.off("resize");
+        };
 
     },
 });

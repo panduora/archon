@@ -49,7 +49,6 @@ let ProcRuntimePodCard = React.createClass({
         <MDL.CardActions 
           buttons={[
             { title: '返回应用', color: 'colored', to: `/archon/apps/${appName}` },
-              //TODO
             { title: '进入容器', color: 'colored', to: `/archon/apps/${appName}/proc/${proc.procname}/instance/${instanceNo}/enter` },
           ]}
           border={true} align='right' />
