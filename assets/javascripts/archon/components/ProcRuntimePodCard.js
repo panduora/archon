@@ -24,9 +24,6 @@ let ProcRuntimePodCard = React.createClass({
       }
     });
 
-    const instanceNo = this.extractFromEnv(pod.envs, "DEPLOYD_POD_INSTANCE_NO");
-
-
     return (
       <MDL.Card depth={2} style={theme.card}>
         <MDL.CardTitle title={`运行实例 - ${pod.containername}`} style={_.assign({}, this.styles.cardTitle, theme.colorStyle(titleColor, true))} />
@@ -49,7 +46,6 @@ let ProcRuntimePodCard = React.createClass({
         <MDL.CardActions 
           buttons={[
             { title: '返回应用', color: 'colored', to: `/archon/apps/${appName}` },
-            { title: '进入容器', color: 'colored', to: `/archon/apps/${appName}/proc/${proc.procname}/instance/${instanceNo}/enter` },
           ]}
           border={true} align='right' />
       </MDL.Card>
@@ -61,16 +57,6 @@ let ProcRuntimePodCard = React.createClass({
       height: 56,
       color: 'white',
     },
-  },
-
-  extractFromEnv(env, key) {
-    for (let i = 0; i < env.length; i++) {
-      let index = env[i].indexOf('=');
-      if (index >= 0 && env[i].substring(0, index) == key) {
-        return env[i].substring(index+1);
-      }
-    }
-    return "-";
   },
 });
 
