@@ -3,8 +3,10 @@ import ReactDOM from 'react-dom';
 import Radium from 'radium';
 import MDL from './MdlComponents';
 import Dialog from './Dialog';
+import {History} from 'react-router';
 
 let ProcRuntimeSection = React.createClass({
+  mixins: [History],
 
   contextTypes: {
     theme: React.PropTypes.object,
@@ -18,7 +20,7 @@ let ProcRuntimeSection = React.createClass({
         <h6 style={{ padding: '0 16px', margin: '8px 0 0' }}>{`运行时状况 [Up/Total = ${proc.upCount()}/${proc.numinstances}]`}</h6>
         <MDL.Table style={theme.dataTable}
           cols={[
-            { title: '容器ID', number: false },
+            { title: 'ID（点击进入）', number: false },
             { title: '容器名称', number: false },
             { title: '节点IP', number: false },
             { title: '容器IP', number: false },
@@ -31,8 +33,14 @@ let ProcRuntimeSection = React.createClass({
             return theme.colorStyle(proc.pods[index].status === 'True' ? 'success' : 'error');
           }}
           tdClickable={ (rowIndex, colIndex) => {
-            if (colIndex !== 5) return null;
-            return (evt) => this.showPodEnvDialog(proc.pods[rowIndex]);
+            if (colIndex == 0) {
+                return (evt) => this.openTerminal(proc.pods[rowIndex]);
+            }
+            if (colIndex == 5) {
+                return (evt) => this.showPodEnvDialog(proc.pods[rowIndex]);
+            }
+            return null;
+
           }} />
       </div>
     );
@@ -57,6 +65,23 @@ let ProcRuntimeSection = React.createClass({
       </Dialog>
     ); 
     ReactDOM.render(dialog, mountNode);
+  },
+
+  openTerminal(podInfo) {
+    const appName = this.extractFromEnv(podInfo.envs, "LAIN_APPNAME");
+    const procName = this.extractFromEnv(podInfo.envs, "LAIN_PROCNAME");
+    const instanceNo = this.extractFromEnv(podInfo.envs, "DEPLOYD_POD_INSTANCE_NO");
+    this.history.pushState({}, `/archon/apps/${appName}/proc/${procName}/instance/${instanceNo}/enter`);
+  },
+
+  extractFromEnv(env, key) {
+    for (let i = 0; i < env.length; i++) {
+      let index = env[i].indexOf('=');
+      if (index >= 0 && env[i].substring(0, index) == key) {
+        return env[i].substring(index+1);
+      }
+    }
+    return "-";
   },
 
 });
