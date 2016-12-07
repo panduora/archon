@@ -23,16 +23,14 @@ func main() {
 	var web, mode string
 	var apiServer string
 	var ssoServer string
-	var ssoClientId int
-	var proxyServer string
 	var entryServer string
+	var ssoClientId int
 	flag.StringVar(&web, "web", ":9000", "Static file server address")
-	flag.StringVar(&mode, "mode", "debug", "Compile mode or local debug mode")
-	flag.StringVar(&apiServer, "api-server", "http://localhost:9000", "Specify the api server")
-	flag.StringVar(&ssoServer, "sso-server", "http://sso.lain.cloud", "Specify the sso server")
-	flag.StringVar(&entryServer, "entry-server", "ws://entry.lain.cloud", "Specify the entry server")
-	flag.IntVar(&ssoClientId, "sso-client-id", 45, "Specify the sso client id")
-	flag.StringVar(&proxyServer, "proxy-server", "http://console.lain.test", "Proxy server for the cors development")
+	flag.StringVar(&mode, "mode", "compile", "Compile mode or local debug mode")
+	flag.StringVar(&apiServer, "api-server", "", "Specify the api server")
+	flag.StringVar(&ssoServer, "sso-server", "", "Specify the sso server")
+	flag.StringVar(&entryServer, "entry-server", "", "Specify the entry server")
+	flag.IntVar(&ssoClientId, "sso-client-id", -1, "Specify the sso client id")
 	flag.Parse()
 
 	if apiServer == "" {
@@ -67,12 +65,11 @@ func main() {
 
 	if mode != "compile" {
 		fs := http.FileServer(http.Dir("."))
-		proxy := getReverseProxy(proxyServer)
 		http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-			if strings.HasPrefix(r.URL.Path, "/api/") {
-				proxy.ServeHTTP(w, r)
-			} else if strings.HasPrefix(r.URL.Path, "/archon") {
+			if strings.HasPrefix(r.URL.Path, "/archon") {
 				http.ServeFile(w, r, "archon.html")
+			} else if r.URL.Path == "/" {
+				http.Redirect(w, r, "/archon", http.StatusMovedPermanently)
 			} else {
 				fs.ServeHTTP(w, r)
 			}
