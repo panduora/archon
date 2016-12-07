@@ -35,7 +35,7 @@ let TerminalCard = React.createClass({
         const customStyle = {height: "100%"};
         return (
             <MDL.Card depth={2} style={_.assign({}, theme.card, customStyle)}>
-                <MDL.CardTitle title="容器终端" style={_.assign({}, this.styles.cardTitle, theme.colorStyle('proc', true))} />
+                <MDL.CardTitle title="容器终端（请通过 exit 命令安全退出！）" style={_.assign({}, this.styles.cardTitle, theme.colorStyle('proc', true))} />
                 <div style={{ padding: 16, height: "100%" }} id="container_terminal">
                 </div>
             </MDL.Card>
