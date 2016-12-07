@@ -11,6 +11,7 @@ import {ACCESS_TOKEN_COOKIE} from '../models/apis/Types';
 // https://github.com/laincloud/entry/blob/master/message.proto
 const REQUEST_PLAIN = 0;
 const REQUEST_WINCH = 1;
+const RESPONSE_CLOSE = 2;
 const RESPONSE_PING = 3;
 
 var printWarn = function(data) {
@@ -76,6 +77,7 @@ let TerminalCard = React.createClass({
 
         ws.onerror = function() {
             term.writeln(printErr(">>> Server stops the connection. Ask admin for help."));
+            $(window).off("beforeunload");
         };
 
         ws.onmessage = function(message) {
@@ -85,6 +87,9 @@ let TerminalCard = React.createClass({
                 var cont = JSON.parse(dec.decode(reader.result));
                 if (cont.msgType != RESPONSE_PING) {
                     term.write(Base64Tool.Base64.decode(cont.content));
+                    if (cont.msgType == RESPONSE_CLOSE) {
+                        ws.close();
+                    }
                 }
             });
             reader.readAsArrayBuffer(message.data);
@@ -120,9 +125,14 @@ let TerminalCard = React.createClass({
             term.fit();
         });
 
+        $(window).on("beforeunload", function() {
+            return "您正在试图异常退出，确认执行吗？（请通过exit命令正常退出）";
+        });
+
         ws.onclose = function() {
             term.off("data");
             term.off("resize");
+            $(window).off("beforeunload");
         };
 
     },
