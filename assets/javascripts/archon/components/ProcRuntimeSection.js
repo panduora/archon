@@ -71,7 +71,7 @@ let ProcRuntimeSection = React.createClass({
     const appName = this.extractFromEnv(podInfo.envs, "LAIN_APPNAME");
     const procName = this.extractFromEnv(podInfo.envs, "LAIN_PROCNAME");
     const instanceNo = this.extractFromEnv(podInfo.envs, "DEPLOYD_POD_INSTANCE_NO");
-    this.history.pushState({}, `/archon/apps/${appName}/proc/${procName}/instance/${instanceNo}/enter`);
+    window.open(`/archon/apps/${appName}/proc/${procName}/instance/${instanceNo}/enter`, '_blank');
   },
 
   extractFromEnv(env, key) {
