@@ -1,7 +1,10 @@
 import React from 'react';
 import Radium from 'radium';
 import MDL from './MdlComponents';
-import DescriptionList from './DescriptionList';
+
+let sortNode = function(a, b) {
+  return a[0].localeCompare(b[0]);
+};
 
 let AppServerStatCard = React.createClass({
 
@@ -37,7 +40,7 @@ let AppServerStatCard = React.createClass({
               { title: 'CPU/内存', number: false },
             ]}
             trStyle={trStyle}
-            rows={ rows } />
+            rows={ rows.sort(sortNode) } />
         </div>
       </MDL.Card>
     );
