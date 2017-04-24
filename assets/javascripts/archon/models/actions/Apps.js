@@ -93,3 +93,13 @@ export function getVersions(name) {
     payload: {},
   };
 }
+
+export function getPorts() {
+  return {
+    type: 'GET_PORTS_REQUEST',
+    async: true,
+    shouldCallApi: (state) => true,
+    callApi: () => AppApi.getPorts(),
+    payload: {},
+  };
+}

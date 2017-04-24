@@ -8,6 +8,7 @@ import LoadHud from '../components/LoadHud';
 import NoticeInforCard from '../components/NoticeInforCard';
 import AppStatCard from '../components/AppStatCard';
 import AppServerStatCard from '../components/AppServerStatCard';
+import AppPortsStatCard from '../components/AppPortsStatCard';
 import AuthorizeMixin from '../mixins/AuthorizeMixin';
 import FlashMessageMixin from '../mixins/FlashMessageMixin';
 import ApiMixin from '../mixins/ApiMixin';
@@ -22,6 +23,7 @@ let AppListPage = React.createClass({
   refreshList() {
     const {dispatch} = this.props;
     dispatch(AppActions.list());
+    dispatch(AppActions.getPorts());
   },
 
   componentDidMount() {
@@ -34,6 +36,9 @@ let AppListPage = React.createClass({
     const request = this.getRequest('LOAD_APPS_REQUEST');
     const delRequest = this.getRequest('DELETE_APP_REQUEST');
     const apps = this.sortApps(request);
+    const portsRequest = this.getRequest(['GET_PORTS_REQUEST']);
+    const ports = portsRequest.data;
+
     return (
       <Grid>
         { this.renderFlash(delRequest.opFlash, AppActions.resetApiFlash('DELETE_APP_REQUEST')) }
@@ -49,9 +54,10 @@ let AppListPage = React.createClass({
           <CreateAppCard />
           <AppStatCard apps={apps} />
           <AppServerStatCard apps={apps} />
+          <AppPortsStatCard ports={ports} />
         </GridCell>
         { request.isFetching ? <LoadHud /> : null }
-      </Grid>    
+      </Grid> 
     );
   },
 

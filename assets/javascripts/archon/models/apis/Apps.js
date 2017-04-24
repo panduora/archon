@@ -124,6 +124,17 @@ export function getVersions(appname){
     });
 }
 
+export function getPorts(){
+  return Fetch.json(`${apiServer}/api/v1/usedstreamrouterports/`,'GET',null)
+    .then(({statusCode, data}) => {
+      if (statusCode === 200) {
+        return Fetch.wrap(statusCode, data.streamrouter);
+      }
+      const rej = Fetch.wrap(statusCode, data.msg || `无法获取Ports详细信息，返回代码：${statusCode}`);
+      return Promise.reject(rej);
+    });
+}
+
 function wrapPromiseWithStatusCode(promise, codes=[404]) {
   return promise.then(({statusCode, data}) => {
     return statusCode; // statusCode === 200
