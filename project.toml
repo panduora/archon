@@ -20,7 +20,7 @@ deps = [
     "es5-shim",
     "react@0.14.1",
     "react-dom@0.14.1",
-    "react-router@v1.0.0-rc1",
+    "react-router",
     "history@1.13.1",
     "lodash",
     "radium@0.15.3",
