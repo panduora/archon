@@ -1,0 +1,24 @@
+appname: archon # just for travis ci as a test
+
+build:
+  base: laincloud/centos-lain:20160503
+  prepare:
+    version: "20161215"
+    script:
+      - yum install -y gcc-c++
+      - git clone --depth=1 https://github.com/golang/sys.git $GOPATH/src/golang.org/x/sys
+      - git clone --depth=1 https://github.com/golang/net.git $GOPATH/src/golang.org/x/net
+      - go get github.com/mijia/gobuildweb
+      - cd $GOPATH/src/github.com/mijia/gobuildweb && sed -i '/deps = append(deps, "browserify", "coffeeify", "envify", "uglifyify", "babelify", "babel-preset-es2015", "babel-preset-react", "nib", "stylus")/d' cmds.go  && go install
+      - mkdir -p $GOPATH/src/github.com/laincloud/archon
+      - cd $GOPATH/src/github.com/laincloud && cp -r /lain/app/* $GOPATH/src/github.com/laincloud/archon/
+  script:
+    - rm -rf $GOPATH/src/github.com/laincloud/archon/*
+    - cp -r /lain/app/* $GOPATH/src/github.com/laincloud/archon/
+    - cd $GOPATH/src/github.com/laincloud/archon && gobuildweb dist
+
+worker:
+  cmd: bash
+
+notify:
+  slack: "#lain"
