@@ -94,6 +94,17 @@ export function getVersions(name) {
   };
 }
 
+export function getLogs(name) {
+  return {
+    type: 'GET_APPLOGS_REQUEST',
+    async: true,
+    shouldCallApi: (state) => true,
+    callApi: () => AppApi.getLogs(name),
+    payload: {},
+  };
+}
+
+
 export function getPorts() {
   return {
     type: 'GET_PORTS_REQUEST',

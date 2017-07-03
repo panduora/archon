@@ -124,6 +124,17 @@ export function getVersions(appname){
     });
 }
 
+export function getLogs(appname){
+  return Fetch.json(`${apiServer}/api/v1/oplogs/${appname}/`,'GET',null)
+    .then(({statusCode, data}) => {
+      if (statusCode === 200 && data.oplog) {
+        return Fetch.wrap(statusCode, data.oplog);
+      }
+      const rej = Fetch.wrap(statusCode, data.msg || `无法获取App详细信息，返回代码：${statusCode}`);
+      return Promise.reject(rej);
+    });
+}
+
 export function getPorts(){
   return Fetch.json(`${apiServer}/api/v1/usedstreamrouterports/`,'GET',null)
     .then(({statusCode, data}) => {

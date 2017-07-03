@@ -44,7 +44,7 @@ let AppDetailPage = React.createClass({
   render() {
     const name = this.getAppName();
     const { requests, isFetching, error } = 
-      this.getPageRequests(['GET_APP_REQUEST', 'UPGRADE_APP_REQUEST', 'DELETE_APP_REQUEST', 'ROLLBACK_APP_REQUEST']);
+      this.getPageRequests(['GET_APP_REQUEST', 'UPGRADE_APP_REQUEST', 'DELETE_APP_REQUEST', 'ROLLBACK_APP_REQUEST', 'GET_APPLOGS_REQUEST']);
     const [request, upgradeReq, deleteReq, rollbackReq] = requests;
     return (
       <MDL.Grid>
@@ -89,6 +89,15 @@ let AppDetailPage = React.createClass({
                   { title: '删除', icon: 'highlight_remove', color: 'accent', onClick: (evt) => this.deleteApp(name) },
                 ]}
                 message={`删除应用将会移除所有本App在集群中的运行容器，但是会保留本应用的注册信息，之后还可以重新部署。`} />
+          }
+          { 
+            error || isFetching ? null : 
+              <NoticeInforCard title={`应用操作日志`}
+                noticeType='info'
+                buttons={[
+                  { title: '日志管理', icon: 'trending_up', color: 'accent', onClick: (evt) => this.showAppLogs(name) },
+                ]}
+                message={`显示应用的操作日志，显示最新的 10 条日志`} />
           }
         </MDL.GridCell>
         { isFetching ? <LoadHud /> : null }
@@ -145,6 +154,7 @@ let AppDetailPage = React.createClass({
       dispatch(AppActions.resetApiCall('UPGRADE_APP_REQUEST'));
       dispatch(AppActions.resetApiCall('DELETE_APP_REQUEST'));
       dispatch(AppActions.resetApiCall('ROLLBACK_APP_REQUEST'));
+      dispatch(AppActions.resetApiCall('GET_APPLOGS_REQUEST'));
       name && dispatch(AppActions.upgrade(name));
     }
   },
@@ -155,6 +165,7 @@ let AppDetailPage = React.createClass({
       dispatch(AppActions.resetApiCall('UPGRADE_APP_REQUEST'));
       dispatch(AppActions.resetApiCall('DELETE_APP_REQUEST'));
       dispatch(AppActions.resetApiCall('ROLLBACK_APP_REQUEST'));
+      dispatch(AppActions.resetApiCall('GET_APPLOGS_REQUEST'));
       name && dispatch(AppActions.remove(name));
     } 
   },
@@ -164,7 +175,17 @@ let AppDetailPage = React.createClass({
     dispatch(AppActions.resetApiCall('UPGRADE_APP_REQUEST'));
     dispatch(AppActions.resetApiCall('DELETE_APP_REQUEST'));
     dispatch(AppActions.resetApiCall('ROLLBACK_APP_REQUEST'));
+    dispatch(AppActions.resetApiCall('GET_APPLOGS_REQUEST'));
     this.history.pushState(null, `/archon/apps/${name}/versions`); 
+  },
+  
+  showAppLogs(name){
+    const {dispatch} = this.props;
+    dispatch(AppActions.resetApiCall('UPGRADE_APP_REQUEST'));
+    dispatch(AppActions.resetApiCall('DELETE_APP_REQUEST'));
+    dispatch(AppActions.resetApiCall('ROLLBACK_APP_REQUEST'));
+    dispatch(AppActions.resetApiCall('GET_APPLOGS_REQUEST'));
+    this.history.pushState(null, `/archon/apps/${name}/logs`); 
   },
 
   getAppName(props = this.props) {
