@@ -97,7 +97,7 @@ let AppDetailPage = React.createClass({
                 buttons={[
                   { title: '查看日志', icon: 'trending_up', color: 'accent', onClick: (evt) => this.showAppLogs(name) },
                 ]}
-                message={`显示应用的操作日志，显示最新的 10 条日志`} />
+                message={`显示应用的操作日志，目前只显示最新的 10 条日志`} />
           }
         </MDL.GridCell>
         { isFetching ? <LoadHud /> : null }
