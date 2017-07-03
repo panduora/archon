@@ -41,7 +41,7 @@ let AppLogsPage = React.createClass({
     const logs = request.data;
     return (
       <MDL.Grid>
-        <MDL.GridCell col={8}>
+        <MDL.GridCell col={12}>
           <AppLogsCard appname={name} logs={logs} />
           <MDL.CardActions border buttons={[
             { title: '刷新', to: `/archon/apps/${name}/logs`, color: 'colored'  },
