@@ -95,9 +95,9 @@ let AppDetailPage = React.createClass({
               <NoticeInforCard title={`应用操作日志`}
                 noticeType='info'
                 buttons={[
-                  { title: '日志管理', icon: 'trending_up', color: 'accent', onClick: (evt) => this.showAppLogs(name) },
+                  { title: '查看日志', icon: 'trending_up', color: 'accent', onClick: (evt) => this.showAppLogs(name) },
                 ]}
-                message={`显示应用的操作日志，显示最新的 10 条日志`} />
+                message={`显示应用的操作日志，目前只显示最新的 10 条日志`} />
           }
         </MDL.GridCell>
         { isFetching ? <LoadHud /> : null }
