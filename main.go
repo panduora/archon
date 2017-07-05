@@ -34,7 +34,7 @@ func main() {
 	flag.Parse()
 
 	if apiServer == "" {
-		log.Fatalf("Please tell me the api server to call.")
+		//log.Fatalf("Please tell me the api server to call.")
 	}
 	if ssoServer == "" {
 		log.Fatalf("Please tell me the sso server to call.")
