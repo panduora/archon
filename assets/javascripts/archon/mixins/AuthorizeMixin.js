@@ -31,7 +31,11 @@ let AuthorizeMixin = {
   },
 
   toAuth() {
-    const redirectUrl = `${apiServer}/api/v1/authorize/`; 
+    let consoleApiServer = apiServer;
+    if(apiServer == ""){
+      consoleApiServer = `${location.protocol}//${location.host}`; 
+    }
+    const redirectUrl = `${consoleApiServer}/api/v1/authorize/`; 
     let params = {
       response_type: 'code',
       redirect_uri: redirectUrl,
