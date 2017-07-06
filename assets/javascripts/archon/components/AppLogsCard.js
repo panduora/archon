@@ -27,7 +27,7 @@ let AppLogsCard = React.createClass({
               { title: "版本号", number: false },
               { title: "备注", number: false },
             ]}
-            rows={ _.map(logs,(l) => [l.fields.time, l.fields.op, l.fields.user, l.fields.app_version, l.fields.message])}
+            rows={ _.map(logs,(l) => [Date(l.fields.time), l.fields.op, l.fields.user, l.fields.app_version, l.fields.message])}
           />
         </div>
       </MDL.Card>
