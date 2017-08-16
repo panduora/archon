@@ -24,19 +24,23 @@ let ProcScheduleSpecCard = React.createClass({
         <MDL.CardTitle style={titleStyle} title={`运行资源调度`} />
         <MDL.CardSupportText>
           对Proc进行实时的动态运行CPU、内存等资源调整调度，输入需要的运行资源，点击确认调度即可。<br />
-          目前预留内存：<b>{cpu}</b>，预留内存：<b>{memory}</b>
+          <br />
+          CPU 参数最大为 8，表示利用到当前 LAIN 节点 CPU 计算能力的 1/2； 其余值如 x 则可以占用 x/16 的计算能力。
+          初始值为2，如果为 0 则兼容旧的配置也为2. <br /> 
+          <br />
+          目前预留 CPU：<b>{cpu}</b>，预留内存：<b>{memory}</b>
         </MDL.CardSupportText>
         <div style={{ padding: '0 16px' }}>
           <MDL.InputTextField inputType='number' name='cpu' ref='cpu'
             style={{ width: '100%' }}
             isValid={this.state.isCpuValid}
             onEnterPressed={this.doSchedule}
-            label='预留CPU [0-32]' />
+            label='预留CPU [0-8]' />
           <MDL.InputTextField inputType='text' name='memory' ref='memory'
             style={{ width: '100%' }}
             isValid={this.state.isMemoryValid}
             onEnterPressed={this.doSchedule}
-            label='预留内存 [例如，32M]' />
+            label='预留内存(M/G) [例如，32M]' />
         </div>
         <MDL.CardActions
           buttons={[
@@ -57,7 +61,7 @@ let ProcScheduleSpecCard = React.createClass({
       isCpuValid = false;
     } else {
       numCpu = Number(cpuValue);
-      if (isNaN(numCpu) || numCpu < 0 || numCpu > 32) {
+      if (isNaN(numCpu) || numCpu < 0 || numCpu > 8) {
         isCpuValid = false;
       }
     }

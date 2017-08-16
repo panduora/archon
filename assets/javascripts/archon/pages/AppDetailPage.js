@@ -74,12 +74,12 @@ let AppDetailPage = React.createClass({
           }
           { 
             error || isFetching ? null : 
-              <NoticeInforCard title={`回滚应用`}
+              <NoticeInforCard title={`部署应用`}
                 noticeType='info'
                 buttons={[
-                  { title: '回滚', icon: 'trending_up', color: 'accent', onClick: (evt) => this.rollbackApp(name) },
+                  { title: '选择版本部署', icon: 'trending_up', color: 'accent', onClick: (evt) => this.rollbackApp(name) },
                 ]}
-                message={`回滚应用将会使用用户指定的应用版本进行部署。`} />
+                message={`部署应用将会使用指定的应用版本进行部署，用户需要在详情页面认真核对版本，是否对应正确的代码提交。`} />
           }
           { 
             error || isFetching ? null : 
