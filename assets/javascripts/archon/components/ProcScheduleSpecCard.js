@@ -75,6 +75,12 @@ let ProcScheduleSpecCard = React.createClass({
         isMemoryValid = false;
       }
     }
+    if (!isCpuValid){
+      alert("CPU 预留请填入 0-8 之间的整数")
+    }
+    if (!isMemoryValid){
+      alert("内存单位必须是 M 或 G")
+    }
     this.setState({isCpuValid, isMemoryValid});
     if (isCpuValid && isMemoryValid) {
       this.props.doSchedule && this.props.doSchedule(numCpu, memoryValue); 
