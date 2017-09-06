@@ -2,6 +2,7 @@ import React from 'react';
 
 import Dialog from './Dialog';
 import MDL from './MdlComponents.js'
+import Moment from 'moment';
 
 let AppLogsCard = React.createClass({
 
@@ -27,7 +28,7 @@ let AppLogsCard = React.createClass({
               { title: "版本号", number: false },
               { title: "备注", number: false },
             ]}
-            rows={ _.map(logs,(l) => [(new Date(l.fields.time)).toString(), l.fields.op, l.fields.user, l.fields.app_version, l.fields.message])}
+            rows={ _.map(logs,(l) => [Moment(new Date(l.fields.time)).format('YYYY-MM-DD HH:mm:ss'), l.fields.op, l.fields.user, l.fields.app_version, l.fields.message])}
           />
         </div>
       </MDL.Card>
