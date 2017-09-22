@@ -2,6 +2,7 @@ import Fetch from './Fetch';
 
 const {apiServer} = window.assets;
 const apiProcs = (appName) => `${apiServer}/api/v1/apps/${appName}/procs/`;
+const apiProcHistories = (appName, procName, instance) => `${apiServer}/api/v1/apps/${appName}/proc/${procName}/instance/${instance}/histories/`;
 
 export function patchInstance(appName, procName, numInstance) {
   let payload = {
@@ -48,6 +49,17 @@ export function deploy(appName, procName) {
         return Fetch.wrap(statusCode, data.proc, `调度部署Proc成功：\n${data.msg}\n请稍后点击刷新查看结果`);
       }
       const rej = Fetch.wrap(statusCode, data.msg || `部署Proc失败，返回代码：${statusCode}`);
+      return Promise.reject(rej);
+    });
+}
+
+export function getProcHistories(appName, procName, instance) {
+  return Fetch.json(apiProcHistories(appName, procName, instance), 'GET', null)
+    .then(({statusCode, data}) => {
+      if (statusCode === 200 && data.proc) {
+        return Fetch.wrap(statusCode, data.proc, `获取数据信息成功`);
+      } 
+      const rej = Fetch.wrap(statusCode, data.msg || `无法获取Proc历史状态列表，返回代码: ${statusCode}`);
       return Promise.reject(rej);
     });
 }

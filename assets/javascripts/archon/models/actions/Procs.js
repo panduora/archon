@@ -39,3 +39,13 @@ export function deploy(appName, procName) {
     payload: { appName, procName },
   };
 }
+
+export function getProcHistories(appName, procName, instance) {
+  return {
+    type: 'GET_PROCHISTORY_REQUEST',
+    async: true,
+    shouldCallApi: (state) => true,
+    callApi: () => ProcApi.getProcHistories(appName, procName, instance),
+    payload: {},
+  };
+}
