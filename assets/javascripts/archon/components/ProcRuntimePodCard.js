@@ -12,7 +12,7 @@ let ProcRuntimePodCard = React.createClass({
 
   render() {
     const {theme} = this.context; 
-    const {appName, proc, pod} = this.props;
+    const {appName, proc, pod, procName, instance} = this.props;
     const isHealthy = pod.status === 'True';
     const titleColor = isHealthy ? 'proc' : 'error';
     const envs = _.map(pod.envs, (env) => {
@@ -45,6 +45,7 @@ let ProcRuntimePodCard = React.createClass({
         </div>
         <MDL.CardActions 
           buttons={[
+            { title: '历史状态', color: 'colored', to: `/archon/apps/${appName}/proc/${procName}/instance/${instance}/histories` },
             { title: '返回应用', color: 'colored', to: `/archon/apps/${appName}` },
           ]}
           border={true} align='right' />

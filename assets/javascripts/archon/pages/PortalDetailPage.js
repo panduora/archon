@@ -40,7 +40,7 @@ let PortalDetailPage = React.createClass({
           {
             isFetching || error || !proc ? null : 
               _.map(proc.pods, (pod, index) => {
-                return <ProcRuntimePodCard key={index} appName={appName} proc={proc} pod={pod} /> 
+                return <ProcRuntimePodCard key={index} appName={appName} instance={index+1} proc={proc} pod={pod} /> 
               })
           }
           { 
