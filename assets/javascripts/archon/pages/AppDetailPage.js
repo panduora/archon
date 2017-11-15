@@ -127,7 +127,7 @@ let AppDetailPage = React.createClass({
             return (
               <div key={index}>
                 { service.portals.map((portal, pIndex) => 
-                    <AppServicePortalCard service={service} app={AppView(app)} portal={ProcView(portal)} key={pIndex} />) }
+                    <AppServicePortalCard service={service} app={AppView(app)} portal={ProcView(portal)} key={pIndex} procOpHandler={this.operateProc} />) }
               </div>
             );
           })
@@ -150,15 +150,15 @@ let AppDetailPage = React.createClass({
   },
 
   operateProc(procname, instance, operation) {
-    const {dispatch} = props;
-    const appname = this.getAppName(props);
-    if (name) {
+    const {dispatch} = this.props;
+    const appname = this.getAppName(this.props);
+    if (appname) {
       dispatch(ProcActions.procOperation(appname, procname, instance, operation));
-      dispatch(AppActions.get(name));
+      dispatch(AppActions.get(appname));
     } else {
       this.history.replaceState(null, '/archon'); 
     }
-  }
+  },
 
   upgradeApp(name) {
     if (confirm(`确定要升级应用－${name}吗？`)) {

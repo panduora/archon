@@ -27,6 +27,12 @@ let AppProcDetailCard = React.createClass({
         { this.renderMenuIcon(app, proc, theme, lifescore) }
         <MDL.CardActions 
           buttons={[
+            { title: '全部启动', icon: 'play_arrow', onClick: (evt) => 
+              this.operateProc(0, 'start'), color: 'colored' },
+            { title: '全部停止', icon: 'stop', onClick: (evt) => 
+              this.operateProc(0, 'stop'), color: 'colored' },
+            { title: '全部重启', icon: 'replay', onClick: (evt) => 
+              this.operateProc(0, 'restart'), color: 'colored' },
             { title: '管理', icon: 'settings', to: `/archon/apps/${app.appname}/proc/${proc.procname}`, color: 'colored' },
           ]}
           border={true} align='right' />
@@ -49,9 +55,29 @@ let AppProcDetailCard = React.createClass({
   },
 
   operateProc(instance, operation) {
-    const {proc, procOpHandler} = this.props;
-    procOpHandler(proc.procname, instance, operation)
-  }
+    const { app, proc, procOpHandler } = this.props;
+    let desc = '';
+    switch(operation){
+      case 'start':
+        desc = '启动';
+        break;
+      case 'stop':
+        desc = '停止';
+        break;
+      case 'restart':
+        desc = '重启';
+        break;
+    }
+    let type = 'proc';
+    let name = `${app.appname}.${proc.proctype}.${proc.procname}`;
+    if (instance !== 0) {
+      type = '容器';
+      name = proc.pods[instance-1].containername;
+    }
+    if (confirm(`确定要${desc}${type}－${name}吗？`)) {
+      procOpHandler(proc.procname, instance, operation)
+    }
+  },
 
   styles: {
     cardTitle: {

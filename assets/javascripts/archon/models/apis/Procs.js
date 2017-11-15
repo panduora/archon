@@ -69,7 +69,7 @@ export function procOperation(appName, procName, instance, operation) {
   let payload = {
     operation: operation,
     instance: instance,
-  };  
+  };
   return Fetch.json(`${apiProcs(appName)}${procName}/`, 'PATCH', payload)
     .then(({statusCode, data}) => {
       if (statusCode === 202) {
