@@ -40,7 +40,6 @@ let ArchonApp = React.createClass({
 
             <Route path='/archon/authorize/logout' component={UserLogoutPage} />
             <Redirect from='/archon/authorize/complete' to='/archon' />
-
             <Route path='/archon/apps' component={this.connectApi(AppListPage)} />
             <Route path='/archon/apps/:name' component={this.connectApi(AppDetailPage)} />
             <Route path='/archon/apps/:name/deploy' component={this.connectApi(AppDeployPage)} />

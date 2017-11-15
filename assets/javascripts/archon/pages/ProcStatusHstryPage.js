@@ -44,7 +44,7 @@ let ProcStatusHstryPage = React.createClass({
         <MDL.GridCell col={12}>
           <ProcStatusHstryCard procname={procname} instance={instance} proc={proc} />
           <MDL.CardActions border buttons={[
-            { title: '刷新', to: `/archon/apps/${appname}/proc/${procname}/instance/${instance}/histories`, color: 'colored'  },
+            { title: '刷新', color: 'colored', onClick: this.refreshHistroies },
             { title: '返回应用', to: `/archon/apps/${appname}`, color: 'colored' },
           ]}
             border={true} align='right'

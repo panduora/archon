@@ -21,7 +21,6 @@ export function createAction(type, ...argNames) {
 }
 
 export function getCommitTimeFromTag(tag){
-    
     let ts = 0;
     if (tag) {
       let index = tag.indexOf('-');

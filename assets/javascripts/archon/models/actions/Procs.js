@@ -49,3 +49,13 @@ export function getProcHistories(appName, procName, instance) {
     payload: {},
   };
 }
+
+export function procOperation(appName, procName, instance, operation) {
+  return {
+    type: 'OPERATE_PROC_REQUEST',
+    async: true,
+    shouldCallApi: (state) => true,
+    callApi: () => ProcApi.procOperation(appName, procName, instance, operation),
+    payload: {appName, procName},
+  };
+}

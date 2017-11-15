@@ -2,6 +2,7 @@ import React from 'react';
 import {History} from 'react-router';
 
 import * as AppActions from '../models/actions/Apps';
+import * as ProcActions from '../models/actions/Procs';
 import MDL from '../components/MdlComponents';
 import AppSummaryCard from '../components/AppSummaryCard';
 import CreateAppCard from '../components/CreateAppCard';
@@ -116,7 +117,7 @@ let AppDetailPage = React.createClass({
         <AppSummaryCard app={app} inDetail={true} onRefreshClick={this.refreshApp} />
         { 
           app.procs.map((proc, index) => 
-            <AppProcDetailCard proc={ProcView(proc)} app={AppView(app)} key={index} />) }
+            <AppProcDetailCard proc={ProcView(proc)} app={AppView(app)} key={index} procOpHandler={this.operateProc}/>) }
         {
           app.useservices.map((us, index) => {
             const service = us.service;
@@ -147,6 +148,17 @@ let AppDetailPage = React.createClass({
       this.history.replaceState(null, '/archon'); 
     }
   },
+
+  operateProc(procname, instance, operation) {
+    const {dispatch} = props;
+    const appname = this.getAppName(props);
+    if (name) {
+      dispatch(ProcActions.procOperation(appname, procname, instance, operation));
+      dispatch(AppActions.get(name));
+    } else {
+      this.history.replaceState(null, '/archon'); 
+    }
+  }
 
   upgradeApp(name) {
     if (confirm(`确定要升级应用－${name}吗？`)) {

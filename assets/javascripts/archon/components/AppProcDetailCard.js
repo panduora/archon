@@ -14,14 +14,14 @@ let AppProcDetailCard = React.createClass({
 
   render() {
     const {theme} = this.context;
-    const {app, proc} = this.props;
+    const {app, proc, procOpHandler} = this.props;
     const lifescore = proc.lifescore();
     const titleStyle = _.assign({}, this.styles.cardTitle, theme.colorStyle('proc', true));
     return (
       <MDL.Card depth={2} style={theme.card}>
         <MDL.CardTitle style={titleStyle} title={`Proc - ${app.procFullname(proc)}`} />
         <div style={{ padding: '16px 0' }}>
-          <ProcRuntimeSection proc={proc} fullname={app.procFullname(proc)} />
+          <ProcRuntimeSection proc={proc} fullname={app.procFullname(proc)} procOpHandler={this.operateProc} />
           <ProcSpecSection proc={proc} />
         </div>
         { this.renderMenuIcon(app, proc, theme, lifescore) }
@@ -47,6 +47,11 @@ let AppProcDetailCard = React.createClass({
       );
     }
   },
+
+  operateProc(instance, operation) {
+    const {proc, procOpHandler} = this.props;
+    procOpHandler(proc.procname, instance, operation)
+  }
 
   styles: {
     cardTitle: {

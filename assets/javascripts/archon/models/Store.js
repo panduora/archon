@@ -38,6 +38,7 @@ const asyncApiCaller = store => next => action => {
       flash: response.flash,
     }));
   };
+  
   const reject = error => {
     return dispatch(_.assign({}, payload, {
       type: failType,
