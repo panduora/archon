@@ -2,6 +2,7 @@ import React from 'react';
 import {History} from 'react-router';
 
 import * as AppActions from '../models/actions/Apps';
+import * as ProcActions from '../models/actions/Procs';
 import MDL from '../components/MdlComponents';
 import AppSummaryCard from '../components/AppSummaryCard';
 import CreateAppCard from '../components/CreateAppCard';
@@ -116,7 +117,7 @@ let AppDetailPage = React.createClass({
         <AppSummaryCard app={app} inDetail={true} onRefreshClick={this.refreshApp} />
         { 
           app.procs.map((proc, index) => 
-            <AppProcDetailCard proc={ProcView(proc)} app={AppView(app)} key={index} />) }
+            <AppProcDetailCard proc={ProcView(proc)} app={AppView(app)} key={index} procOpHandler={this.operateProc}/>) }
         {
           app.useservices.map((us, index) => {
             const service = us.service;
@@ -126,7 +127,7 @@ let AppDetailPage = React.createClass({
             return (
               <div key={index}>
                 { service.portals.map((portal, pIndex) => 
-                    <AppServicePortalCard service={service} app={AppView(app)} portal={ProcView(portal)} key={pIndex} />) }
+                    <AppServicePortalCard service={service} app={AppView(app)} portal={ProcView(portal)} key={pIndex} procOpHandler={this.operateProc} />) }
               </div>
             );
           })
@@ -143,6 +144,17 @@ let AppDetailPage = React.createClass({
       dispatch(AppActions.resetApiCall('DELETE_APP_REQUEST'));
       dispatch(AppActions.resetApiCall('ROLLBACK_APP_REQUEST'));
       dispatch(AppActions.get(name));
+    } else {
+      this.history.replaceState(null, '/archon'); 
+    }
+  },
+
+  operateProc(procname, instance, operation) {
+    const {dispatch} = this.props;
+    const appname = this.getAppName(this.props);
+    if (appname) {
+      dispatch(ProcActions.procOperation(appname, procname, instance, operation));
+      dispatch(AppActions.get(appname));
     } else {
       this.history.replaceState(null, '/archon'); 
     }

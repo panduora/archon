@@ -14,7 +14,8 @@ let ProcRuntimeSection = React.createClass({
 
   render() {
     const {theme} = this.context;
-    const {proc, fullname} = this.props;
+    const {proc, fullname, procOpHandler} = this.props;
+    console.log('pod:', proc.pods[0])
     return (
       <div style={{ marginBottom: 16 }}>
         <h6 style={{ padding: '0 16px', margin: '8px 0 0' }}>{`运行时状况 [Up/Total = ${proc.upCount()}/${proc.numinstances}]`}</h6>
@@ -24,11 +25,15 @@ let ProcRuntimeSection = React.createClass({
             { title: '容器名称', number: false },
             { title: '节点IP', number: false },
             { title: '容器IP', number: false },
-            { title: '容器端口', number: true },
+            { title: '启动时间', number: false },
+            { title: '容器操作', number: false },
+            { title: '容器重启', number: false },
             { title: '实时日志', number: false },
             { title: '环境变量', number: false },
           ]}
-          rows={ _.map(proc.pods, (pod) => [pod.containerid.substring(0, 12), pod.containername, pod.nodeip, pod.containerip, pod.containerport, 'LOG', '点击查看']) }
+          rows={ _.map(proc.pods, (pod) => [pod.containerid.substring(0, 12), 
+            pod.containername.substring(pod.containername.lastIndexOf('.')+1), pod.nodeip, 
+            pod.containerip, pod.uptime, (pod.status === 'True' ? '停止' : '启动'), '重启', 'LOG', '点击查看']) }
           trStyle={(section, index) => {
             if (section === 'head') return {};
             return theme.colorStyle(proc.pods[index].status === 'True' ? 'success' : 'error');
@@ -37,13 +42,20 @@ let ProcRuntimeSection = React.createClass({
             switch (colIndex) {
               case 0:
                 return (evt) => this.openTerminal(proc.pods[rowIndex]);
-              case 5:
-                return (evt) => this.openTerminalAttach(proc.pods[rowIndex]);
+              case 5: 
+                if (proc.pods[rowIndex].status === 'True') {
+                  return (evt) => procOpHandler(rowIndex+1, 'stop');
+                } else {
+                  return (evt) => procOpHandler(rowIndex+1, 'start');
+                }
               case 6:
+                return (evt) => procOpHandler(rowIndex+1, 'restart');
+              case 7:
+                return (evt) => this.openTerminalAttach(proc.pods[rowIndex]);
+              case 8:
                 return (evt) => this.showPodEnvDialog(proc.pods[rowIndex]);
             }
             return null;
-
           }} />
       </div>
     );

@@ -22,7 +22,7 @@ let AppServicePortalCard = React.createClass({
       <Card style={theme.card}>
         <CardTitle style={titleStyle} title={`Service[${service.appname}] Portal - ${portal.procname}`} />
         <div style={{ padding: '16px 0' }}>
-          <ProcRuntimeSection proc={portal} fullname={app.procFullname(portal)} />
+          <ProcRuntimeSection proc={portal} fullname={app.procFullname(portal)} procOpHandler={this.operateProc} />
           <ProcSpecSection proc={portal} />
         </div>
         { this.renderMenuIcon(app, portal, theme, lifescore) }
@@ -47,6 +47,32 @@ let AppServicePortalCard = React.createClass({
         <CardMenuIcon style={theme.colorStyle('error')} icon='warning'
           to={`/archon/apps/${app.appname}/portal/${proc.procname}`} />
       );
+    }
+  },
+
+  operateProc(instance, operation) {
+    const {app, portal, procOpHandler} = this.props;
+    const proc = portal;
+    let desc = '';
+    switch(operation){
+      case 'start':
+        desc = '启动';
+        break;
+      case 'stop':
+        desc = '停止';
+        break;
+      case 'restart':
+        desc = '重启';
+        break;
+    }
+    let type = 'proc';
+    let name = `${app.appname}.${proc.proctype}.${proc.procname}`
+    if (instance !== 0) {
+      type = '容器';
+      name = proc.pods[instance-1].containername;
+    }
+    if (confirm(`确定要${desc}${type}－${name}吗？`)) {
+      procOpHandler(proc.procname, instance, operation)
     }
   },
 

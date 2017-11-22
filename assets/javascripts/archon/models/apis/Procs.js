@@ -2,7 +2,8 @@ import Fetch from './Fetch';
 
 const {apiServer} = window.assets;
 const apiProcs = (appName) => `${apiServer}/api/v1/apps/${appName}/procs/`;
-const apiProcHistories = (appName, procName, instance) => `${apiServer}/api/v1/apps/${appName}/proc/${procName}/instance/${instance}/histories/`;
+const apiProcHistories = (appName, procName, instance) => `${apiServer}/api/v1/apps/${appName}/procs/${procName}/instance/${instance}/histories/`;
+
 
 export function patchInstance(appName, procName, numInstance) {
   let payload = {
@@ -60,6 +61,21 @@ export function getProcHistories(appName, procName, instance) {
         return Fetch.wrap(statusCode, data.proc, `获取数据信息成功`);
       } 
       const rej = Fetch.wrap(statusCode, data.msg || `无法获取Proc历史状态列表，返回代码: ${statusCode}`);
+      return Promise.reject(rej);
+    });
+}
+
+export function procOperation(appName, procName, instance, operation) {
+  let payload = {
+    operation: operation,
+    instance: instance,
+  };
+  return Fetch.json(`${apiProcs(appName)}${procName}/`, 'PATCH', payload)
+    .then(({statusCode, data}) => {
+      if (statusCode === 202) {
+        return Fetch.wrap(statusCode, data, `操作成功：\n${data.msg}\n请稍后点击刷新查看操作结果`);
+      }
+      const rej = Fetch.wrap(statusCode, data.msg || `操作失败，返回代码：${statusCode}`);
       return Promise.reject(rej);
     });
 }
