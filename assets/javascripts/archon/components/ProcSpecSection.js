@@ -19,7 +19,6 @@ let ProcSpecSection = React.createClass({
           list={[
             {k: 'Image', v: proc.image },
             {k: '启动命令', v: proc.cmd.join(' ')  },
-            {k: 'EntryPoint', v: proc.entrypoint.join(' ') }, 
             {k: '实例数量', v: proc.numinstances }, 
             {k: '预留CPU／内存', v: `${proc.cpu} / ${proc.memory}` }, 
             {k: 'DNS搜索域', v: proc.dnssearchs.join(', ') }, 
