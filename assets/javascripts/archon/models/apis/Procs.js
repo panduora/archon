@@ -4,7 +4,6 @@ const {apiServer} = window.assets;
 const apiProcs = (appName) => `${apiServer}/api/v1/apps/${appName}/procs/`;
 const apiProcHistories = (appName, procName, instance) => `${apiServer}/api/v1/apps/${appName}/procs/${procName}/instance/${instance}/histories/`;
 
-
 export function patchInstance(appName, procName, numInstance) {
   let payload = {
     num_instances: numInstance,
