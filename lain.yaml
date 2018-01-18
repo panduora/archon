@@ -1,10 +1,12 @@
 appname: archon # just for travis ci as a test
 
 build:
-  base: laincloud/centos-lain:20160503
+  base: laincloud/centos-lain:20180103
   prepare:
-    version: "20161215"
+    version: "20180103"
     script:
+      - yum clean all
+      - yum update -y
       - yum install -y gcc-c++
       - git clone --depth=1 https://github.com/golang/sys.git $GOPATH/src/golang.org/x/sys
       - git clone --depth=1 https://github.com/golang/net.git $GOPATH/src/golang.org/x/net
