@@ -17,7 +17,7 @@ let ProcRuntimeSection = React.createClass({
     const {proc, fullname, procOpHandler} = this.props;
     console.log('pod:', proc.pods[0])
     return (
-      <div style={{ marginBottom: 16 }}>
+      <div style={{ marginBottom: 16, overflowX: 'auto' }}>
         <h6 style={{ padding: '0 16px', margin: '8px 0 0' }}>{`运行时状况 [Up/Total = ${proc.upCount()}/${proc.numinstances}]`}</h6>
         <MDL.Table style={theme.dataTable}
           cols={[
