@@ -20,7 +20,7 @@
     "redux": "^3.6.0",
     "redux-logger": "^2.7.4",
     "whatwg-fetch": "^2.0.1",
-    "xterm": "^3.3.0"
+    "xterm": "2.1.0"
   },
   "devDependencies": {
     "babel-core": "^6.26.3",
