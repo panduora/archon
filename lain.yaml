@@ -1,28 +1,22 @@
 appname: archon
 
 build:
-  base: laincloud/node:9
+  base: registry.lain.ein.plus/einplus/centos-base:20171122
+  version: "20180618"
   prepare:
     script:
-      - sed -i 's|deb.debian.org|mirrors.tuna.tsinghua.edu.cn|g' /etc/apt/sources.list
-      - sed -i 's|security.debian.org|mirrors.tuna.tsinghua.edu.cn/debian-security|g' /etc/apt/sources.list
-      - apt-get -y update && apt-get -y install apt-transport-https ca-certificates golang
+      - yum install make gcc
+      - yarn install
+      - yarn build
+    keep:
+      - node_modules
   script:
     # - yarn install --verbose
     - yarn build
     - mkdir -p /go/src/github.com/laincloud/archon
     - cp -rf main.go /go/src/github.com/laincloud/archon/
     - GOPATH=/go go install github.com/laincloud/archon
-  volumes:
-    - /lain/app/node_modules
-
-release:
-  dest_base: laincloud/debian:stretch
-  copy:
-    - src: /go/bin/archon
-      dest: /lain/app/archon
-    - src: /lain/app/dist
-      dest: /lain/app/dist
+    - cp /go/bin/archon /lain/app/archon
 
 web:
   cmd: /lain/app/archon -port=8080 -staticdir=/lain/app/dist
